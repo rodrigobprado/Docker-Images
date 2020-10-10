@@ -17,7 +17,7 @@ RUN apt-get update && \
 RUN echo -e "en_US.UTF-8 UTF-8 \
     pt_BR.UTF-8 UTF-8" > /etc/locale.gen
 
-RUN echo " \
+RUN echo -e " \
     export HISTTIMEFORMAT=\"%Y/%m/%d %T => \" ; \
     HISTSIZE=10000000000000000 ;\
     HISTFILESIZE=2000000000000000000000 ;\
