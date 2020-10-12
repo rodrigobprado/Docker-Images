@@ -114,3 +114,4 @@ RUN apt-get clean -y
 RUN service php7.4-fpm restart
 
 CMD ["php7.4-fpm"]
+
