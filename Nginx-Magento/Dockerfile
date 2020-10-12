@@ -7,6 +7,7 @@ LABEL   version="0.1" \
 #############
 # Variables #
 #############
+ENV PHP_HOST php-fpm
 ENV UPLOAD_MAX_FILESIZE 600M
 ENV XDEBUG_HOST fpm_xdebug
 ENV FPM_HOST fastcgi_backend
@@ -23,7 +24,18 @@ WORKDIR ${MAGENTO_ROOT}
 
 EXPOSE 80
 
+########################
+# Install nginx #
+########################
+RUN apt-get update && \
+    apt-get install nginx nginx-extras -y
 
+#############################
+# Configure PHP for Magento #
+#############################
+RUN echo -e "upstream fastcgi_backend { \
+        server  ${PHP_HOST}:9000; \
+      }" > /etc/nginx/conf.d/php.conf
 
 #COPY etc/nginx.conf /etc/nginx/
 #COPY etc/vhost.conf /etc/nginx/conf.d/default.conf
