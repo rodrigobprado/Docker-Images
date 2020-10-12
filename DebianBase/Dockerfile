@@ -1,6 +1,8 @@
 FROM debian:latest 
 
-LABEL version="0.1" maintainer="Rodrigo Braga Prado <docker@quati.com.br>"
+LABEL   version="0.1" \
+        maintainer="Rodrigo Braga Prado <docker@quati.com.br>" \
+        Description="latest stable debian image with custom alias"
 
 ################
 # Base install #
@@ -8,15 +10,23 @@ LABEL version="0.1" maintainer="Rodrigo Braga Prado <docker@quati.com.br>"
 RUN apt-get update && \
     apt-get dist-upgrade -y && \
     apt-get install -y \
-    curl  && \
+    curl vim && \
     apt-get clean
+
+######################
+# Vim default editor #
+######################
+RUN update-alternatives --set editor /usr/bin/vim.basic
 
 ###############
 # Set locales #
 ###############
 RUN echo -e "en_US.UTF-8 UTF-8 \
-    pt_BR.UTF-8 UTF-8" > /etc/locale.gen
+            pt_BR.UTF-8 UTF-8" > /etc/locale.gen
 
+#########
+# Alias #
+#########
 RUN echo -e " \
     export HISTTIMEFORMAT=\"%Y/%m/%d %T => \" ; \
     HISTSIZE=10000000000000000 ;\

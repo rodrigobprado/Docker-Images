@@ -107,6 +107,8 @@ RUN echo "[opcache]" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.interned_strings_buffer=16" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.fast_shutdown=1" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini 
 
+RUN apt-get purge apache2* -y
+
 RUN apt-get clean -y
 
 RUN service php7.4-fpm restart
