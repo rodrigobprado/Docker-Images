@@ -112,3 +112,4 @@ RUN apt-get purge apache2* -y && apt-get clean -y
 RUN service php7.4-fpm restart
 
 CMD ["php7.4-fpm"]
+
