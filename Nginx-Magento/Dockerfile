@@ -1,8 +1,8 @@
-FROM nginx:latest 
+FROM rodrigobp/debian-base:latest 
 
 LABEL   version="0.1" \
         maintainer="Rodrigo Braga Prado <docker@quati.com.br>" \
-        Description="latest stable official nginx image with magento 2 confs"
+        Description="latest stable nginx image with magento 2 confs"
 
 #############
 # Variables #
@@ -22,12 +22,13 @@ ENV DEBUG false
 VOLUME ${MAGENTO_ROOT}
 WORKDIR ${MAGENTO_ROOT}
 
-EXPOSE 80
+EXPOSE 8080
 
-########################
+#################
 # Install nginx #
-########################
+#################
 RUN apt-get update && \
+    apt-get dist-upgrade -y && \
     apt-get install nginx nginx-extras -y
 
 #############################
@@ -35,17 +36,13 @@ RUN apt-get update && \
 #############################
 RUN echo -e "upstream fastcgi_backend { \
         server  ${PHP_HOST}:9000; \
-      }" > /etc/nginx/conf.d/php.conf
+      } \
+      " > /etc/nginx/conf.d/php.conf
 
-#COPY etc/nginx.conf /etc/nginx/
-#COPY etc/vhost.conf /etc/nginx/conf.d/default.conf
-#COPY etc/xdebug-upstream.conf /etc/nginx/conf.d/xdebug/upstream.conf
+COPY nginx.conf.sample /etc/nginx/sites-avaliable/nginx.conf.sample
+COPY magento.conf /etc/nginx/sites-avaliable/magento.conf
 
-
-
-#COPY docker-entrypoint.sh /docker-entrypoint.sh
-#RUN ["chmod", "+x", "/docker-entrypoint.sh"]
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+RUN    ln -s /etc/nginx/sites-avaliable/magento.conf /etc/nginx/sites-enabled/magento.conf
 
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -19,7 +19,7 @@ backend default {
 }
 
 acl purge {
-    "localhost";
+    "nginx";
 }
 
 sub vcl_recv {
