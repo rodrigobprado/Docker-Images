@@ -39,10 +39,11 @@ RUN echo -e "upstream fastcgi_backend { \
       } \
       " > /etc/nginx/conf.d/php.conf
 
+RUN mkdir -p ${MAGENTO_ROOT}
+
 COPY nginx.conf.sample /etc/nginx/sites-avaliable/nginx.conf.sample
 COPY magento.conf /etc/nginx/sites-avaliable/magento.conf
 
 RUN    ln -s /etc/nginx/sites-avaliable/magento.conf /etc/nginx/sites-enabled/magento.conf
-
 
 CMD ["nginx", "-g", "daemon off;"]
