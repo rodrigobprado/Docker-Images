@@ -1,4 +1,4 @@
-FROM nginx:latest 
+FROM rodrigobp/nginx:latest
 
 LABEL   version="0.1" \
         maintainer="Rodrigo Braga Prado <docker@quati.com.br>" \
