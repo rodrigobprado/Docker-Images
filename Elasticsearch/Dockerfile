@@ -5,7 +5,8 @@ LABEL   version="0.1" \
         Description="latest stable elasticsearch with magento 2 confs"
 
 RUN apt-get update && \
-    apt-get dist-upgrade -y
+    apt-get dist-upgrade -y && \
+    apt-get install curl vim sudo wget gnupg2 ca-certificates apt-transport-https dialog tasksel bash -y
 
 RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - && \
     apt-get install -y apt-transport-https 
