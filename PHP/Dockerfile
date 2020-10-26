@@ -26,7 +26,7 @@ ENV PHP_MAX_INPUT_VARS 3000
 ENV PHP_MAX_INPUT_TIME 1000
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS 0
-ENV PHP_OPCACHE_MAX_ACCELERATED_FILES 60000 
+ENV PHP_OPCACHE_MAX_ACCELERATED_FILES 60000
 ENV PHP_OPCACHE_MAX_WASTED_PERCENTAGE 10
 ENV PHP_OPCACHE_MEMORY_CONSUMPTION 512MB
 ENV PHP_OPCACHE_CONSISTENCY_CHECKS 0
@@ -41,6 +41,7 @@ EXPOSE 9000
 # Install dependencies #
 ########################
 RUN apt-get update && \
+    apt-get dist-upgrade -y &&  \
     apt-get install curl vim sudo wget gnupg2 ca-certificates apt-transport-https dialog tasksel bash -y && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B188E2B695BD4743 && \
     wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - && \
@@ -52,14 +53,14 @@ RUN apt-get update && \
     echo "deb https://packages.sury.org/php/ buster main" > /etc/apt/sources.list.d/php.list && \
     mkdir -p /run/php && \
     apt-get update && \
-    apt-get install php-sodium php-apcu phpunit libperl-dev libxml-libxml-perl libxml2-dev libxml2-utils python-libxml2 libxslt1.1 libxslt1-dev python-libxslt1 libxml-filter-xslt-perl libxml-libxslt-perl libgd-dev libgd-perl python-gd libgoogle-perftools4 libgoogle-perftools-dev -y 
+    apt-get install php-sodium php-apcu phpunit libperl-dev libxml-libxml-perl libxml2-dev libxml2-utils python-libxml2 libxslt1.1 libxslt1-dev python-libxslt1 libxml-filter-xslt-perl libxml-libxslt-perl libgd-dev libgd-perl python-gd libgoogle-perftools4 libgoogle-perftools-dev -y
 
 ##############
 # Requisites #
 ##############
 RUN mkdir -p /run/php && \
     apt-get update  && \
-    apt-get install php-sodium php-apcu phpunit libperl-dev libxml-libxml-perl libxml2-dev libxml2-utils python-libxml2 libxslt1.1 libxslt1-dev python-libxslt1 libxml-filter-xslt-perl libxml-libxslt-perl libgd-dev libgd-perl python-gd libgoogle-perftools4 libgoogle-perftools-dev -y 
+    apt-get install php-sodium php-apcu phpunit libperl-dev libxml-libxml-perl libxml2-dev libxml2-utils python-libxml2 libxslt1.1 libxslt1-dev python-libxslt1 libxml-filter-xslt-perl libxml-libxslt-perl libgd-dev libgd-perl python-gd libgoogle-perftools4 libgoogle-perftools-dev -y
 
 ####################
 # PHP and Modules #
@@ -77,14 +78,14 @@ RUN sed -i 's/memory_limit = .*/memory_limit = '${PHP_MEMORY_LIMIT}'/' /etc/php/
     sed -i 's/upload_max_filesize = .*/upload_max_filesize = '${PHP_UPLOAD_MAX_FILESIZE}'/' /etc/php/7.4/fpm/php.ini && \
     sed -i 's/post_max_size = .*/post_max_size = '${PHP_POST_MAX_SIZE}'/' /etc/php/7.4/fpm/php.ini && \
     sed -i 's/max_input_vars = .*/max_input_vars = '${PHP_MAX_INPUT_VARS}'/' /etc/php/7.4/fpm/php.ini && \
-    sed -i 's/max_input_time = .*/max_input_time = '${PHP_MAX_INPUT_TIME}'/' /etc/php/7.4/fpm/php.ini && \   
-    sed -i 's/realpath_cache_size = .*/realpath_cache_size = '${PHP_REALPATH_CACHE_SIZE}'/' /etc/php/7.4/fpm/php.ini && \    
-    sed -i 's/realpath_cache_ttl = .*/realpath_cache_ttl = '${PHP_REALPATH_CACHE_TTL}'/' /etc/php/7.4/fpm/php.ini 
+    sed -i 's/max_input_time = .*/max_input_time = '${PHP_MAX_INPUT_TIME}'/' /etc/php/7.4/fpm/php.ini && \
+    sed -i 's/realpath_cache_size = .*/realpath_cache_size = '${PHP_REALPATH_CACHE_SIZE}'/' /etc/php/7.4/fpm/php.ini && \
+    sed -i 's/realpath_cache_ttl = .*/realpath_cache_ttl = '${PHP_REALPATH_CACHE_TTL}'/' /etc/php/7.4/fpm/php.ini
 
 ##################
 # PHP FPM Listen #
 ##################
-RUN echo "listen = 0.0.0.0:9000" >> /etc/php/7.4/fpm/pool.d/www.conf 
+RUN echo "listen = 0.0.0.0:9000" >> /etc/php/7.4/fpm/pool.d/www.conf
 
 ###################
 # PHP Module APCU #
@@ -99,13 +100,13 @@ RUN echo "[opcache]" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.enable_cli=1" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.enable=1" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.revalidate_freq=0" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
-    echo "opcache.consistency_checks=${PHP_OPCACHE_VALIDATE_TIMESTAMPS}" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \    
+    echo "opcache.consistency_checks=${PHP_OPCACHE_VALIDATE_TIMESTAMPS}" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.validate_timestamps=${PHP_OPCACHE_VALIDATE_TIMESTAMPS}" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.max_accelerated_files=${PHP_OPCACHE_MAX_ACCELERATED_FILES}" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.memory_consumption=${PHP_OPCACHE_MEMORY_CONSUMPTION}" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.max_wasted_percentage=${PHP_OPCACHE_MAX_WASTED_PERCENTAGE}" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
     echo "opcache.interned_strings_buffer=16" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
-    echo "opcache.fast_shutdown=1" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini 
+    echo "opcache.fast_shutdown=1" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini
 
 RUN apt-get purge apache2* -y && apt-get clean -y
 
