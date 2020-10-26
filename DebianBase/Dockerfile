@@ -52,3 +52,4 @@ RUN echo -e " \
     alias ssh='ssh -X -C -v' ;\
     alias wtf='man' ; " >> /etc/bash.bashrc
 
+
