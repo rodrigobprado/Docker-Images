@@ -22,7 +22,7 @@ ENV DEBUG false
 VOLUME ${MAGENTO_ROOT}
 WORKDIR ${MAGENTO_ROOT}
 
-EXPOSE 8080
+EXPOSE 80 8080
 
 #################
 # Install nginx #
