@@ -110,8 +110,10 @@ RUN echo "[opcache]" >> /etc/php/7.4/fpm/conf.d/10-opcache.ini && \
 
 RUN apt-get purge apache2* -y && apt-get clean -y
 
-RUN service php7.4-fpm restart
+RUN service php7.4-fpm start
 
 CMD ["service php7.4-fpm restar"]
+
+CMD ["php-fpm"]
 
 ENTRYPOINT ["/etc/init.d/php7.4-fpm", "start"]
