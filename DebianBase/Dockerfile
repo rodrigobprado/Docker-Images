@@ -21,13 +21,13 @@ RUN update-alternatives --set editor /usr/bin/vim.basic
 ###############
 # Set locales #
 ###############
-RUN echo -e "en_US.UTF-8 UTF-8 \
+RUN echo "en_US.UTF-8 UTF-8 \
             pt_BR.UTF-8 UTF-8" > /etc/locale.gen
 
 #########
 # Alias #
 #########
-RUN echo -e " \
+RUN echo " \
     export HISTTIMEFORMAT=\"%Y/%m/%d %T => \" ; \
     HISTSIZE=10000000000000000 ;\
     HISTFILESIZE=2000000000000000000000 ;\
