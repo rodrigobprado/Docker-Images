@@ -17,4 +17,8 @@ RUN apt-get update && \
     apt-get dist-upgrade -y &&  \
     apt-get install redis-server  redis-tools -y
 
+RUN sed -i '/^bind/d' /etc/redis/redis.conf && \
+    echo "bind 0.0.0.0" >> /etc/redis/redis.conf && \
+    service redis-server restart
+
 CMD ["redis-server"]
