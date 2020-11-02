@@ -45,6 +45,6 @@ COPY nginx.conf.sample /etc/nginx/sites-avaliable/nginx.conf.sample
 COPY magento.conf /etc/nginx/sites-avaliable/magento.conf
 
 RUN    ln -s /etc/nginx/sites-avaliable/magento.conf /etc/nginx/sites-enabled/magento.conf
-RUN    rm /etc/nginx/sites-sites-enabled/default.conf 
+RUN    rm /etc/nginx/sites-enabled/default.conf 
 
 CMD ["nginx", "-g", "daemon off;"]
