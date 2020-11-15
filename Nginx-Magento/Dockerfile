@@ -35,15 +35,8 @@ RUN apt-get update && \
 # Configure PHP for Magento #
 #############################
 RUN echo "upstream fastcgi_backend { \
-        server  ${PHP_HOST}:9000; \
+        server  php:9000; \
       } \
       " > /etc/nginx/conf.d/php.conf
-
-RUN mkdir -p ${MAGENTO_ROOT}
-
-RUN  rm /etc/nginx/sites-enabled/* 
-COPY nginx.conf.sample /etc/nginx/sites-avaliable/nginx.conf.sample
-COPY magento.conf /etc/nginx/sites-avaliable/magento.conf
-RUN  ln -s /etc/nginx/sites-avaliable/magento.conf /etc/nginx/sites-enabled/magento.conf
 
 CMD ["nginx", "-g", "daemon off;"]
