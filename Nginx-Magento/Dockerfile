@@ -34,9 +34,5 @@ RUN apt-get update && \
 #############################
 # Configure PHP for Magento #
 #############################
-RUN echo "upstream fastcgi_backend { \
-        server  php:9000; \
-      } \
-      " > /etc/nginx/conf.d/php.conf
 
 CMD ["nginx", "-g", "daemon off;"]
