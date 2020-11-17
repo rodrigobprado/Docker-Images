@@ -35,4 +35,4 @@ RUN apt-get update && \
 # Configure PHP for Magento #
 #############################
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx -c /etc/nginx/nginx.conf  -g 'daemon off;' "]
