@@ -11,4 +11,4 @@ RUN apt-get update && \
 
 # COPY default.vcl /etc/varnish/
 
-CMD ["varnishd", "-F", "-f", "/etc/varnish/default.vcl"]
+CMD /usr/sbin/varnishd -F -f /etc/varnish/default.vcl
