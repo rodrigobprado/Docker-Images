@@ -9,6 +9,6 @@ RUN apt-get update && \
     apt-get dist-upgrade -y &&  \
     apt-get install varnish -y
 
-# COPY default.vcl /etc/varnish/
+COPY default.vcl /etc/varnish/
 
 CMD /usr/sbin/varnishd -F -f /etc/varnish/default.vcl
