@@ -15,14 +15,11 @@ RUN echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /
     apt-get update && apt-get install -y elasticsearch && \
     update-rc.d elasticsearch defaults 95 10
 
-RUN echo "http.host: 0.0.0.0 " > /etc/elasticsearch/elasticsearch.yml 
-RUN echo "http.port: 9200  " >> /etc/elasticsearch/elasticsearch.yml 
-RUN echo "transport.tcp.port: 9300  " >> /etc/elasticsearch/elasticsearch.yml 
-RUN echo "path.data: /var/lib/elasticsearch " >> /etc/elasticsearch/elasticsearch.yml  
-RUN echo "path.logs: /var/log/elasticsearch " >> /etc/elasticsearch/elasticsearch.yml 
-RUN cat /etc/passwd
-RUN cat /etc/group
-
+RUN echo "http.host: 0.0.0.0 " > /etc/elasticsearch/elasticsearch.yml && \
+    echo "http.port: 9200  " >> /etc/elasticsearch/elasticsearch.yml && \ 
+    echo "transport.tcp.port: 9300  " >> /etc/elasticsearch/elasticsearch.yml  && \
+    echo "path.data: /var/lib/elasticsearch " >> /etc/elasticsearch/elasticsearch.yml && \
+    echo "path.logs: /var/log/elasticsearch " >> /etc/elasticsearch/elasticsearch.yml 
 
 RUN mkdir /var/run/elasticsearch  -p  && chown -R elasticsearch:elasticsearch /var/run/elasticsearch
 
