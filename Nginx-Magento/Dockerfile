@@ -1,13 +1,13 @@
 FROM rodrigobp/debian-base:latest 
 
-LABEL   version="0.1" \
+LABEL   version="0.1b" \
         maintainer="Rodrigo Braga Prado <docker@quati.com.br>" \
         Description="latest stable nginx image with magento 2 confs"
 
 #############
 # Variables #
 #############
-ENV PHP_HOST php-fpm
+ENV PHP_HOST php
 ENV UPLOAD_MAX_FILESIZE 600M
 ENV XDEBUG_HOST fpm_xdebug
 ENV FPM_HOST fastcgi_backend
@@ -29,10 +29,12 @@ EXPOSE 80 8080
 #################
 RUN apt-get update && \
     apt-get dist-upgrade -y && \
-    apt-get install nginx nginx-extras -y
+    apt-get install nginx nginx-extras dnsutils systemd composer -y
 
-#############################
-# Configure PHP for Magento #
-#############################
+RUN mkdir -p ${MAGENTO_ROOT} && \
+    mkdir -p /etc/nginx/magento/
+
+RUN  rm /etc/nginx/sites-enabled/* 
+RUN  ln -s /etc/nginx/sites-available/magento.conf /etc/nginx/sites-enabled/magento.conf
 
 ENTRYPOINT /usr/sbin/nginx -c /etc/nginx/nginx.conf  -g 'daemon off;' 
