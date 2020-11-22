@@ -24,7 +24,7 @@ RUN cat /etc/passwd
 RUN cat /etc/group
 
 
-RUN mkdir /var/run/elasticsearch && -p chown -R elasticsearch:elasticsearch /var/run/elasticsearch
+RUN mkdir /var/run/elasticsearch  -p  && chown -R elasticsearch:elasticsearch /var/run/elasticsearch
 
 EXPOSE 9200 9300
 
