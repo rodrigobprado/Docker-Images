@@ -25,4 +25,7 @@ RUN mkdir /var/run/elasticsearch  -p  && chown -R elasticsearch:elasticsearch /v
 
 EXPOSE 9200 9300
 
-ENTRYPOINT /sbin/start-stop-daemon -d /usr/share/elasticsearch --start --user elasticsearch -c elasticsearch --pidfile /var/run/elasticsearch/elasticsearch.pid --exec /usr/share/elasticsearch/bin/elasticsearch -- -d -p /var/run/elasticsearch/elasticsearch.pid
+USER elasticsearch
+
+ENTRYPOINT /usr/share/elasticsearch/bin/elasticsearch   -d -p /var/run/elasticsearch/elasticsearch.pid
+#ENTRYPOINT /sbin/start-stop-daemon -d /usr/share/elasticsearch --start --user elasticsearch -c elasticsearch --pidfile /var/run/elasticsearch/elasticsearch.pid --exec /usr/share/elasticsearch/bin/elasticsearch -- -d -p /var/run/elasticsearch/elasticsearch.pid
