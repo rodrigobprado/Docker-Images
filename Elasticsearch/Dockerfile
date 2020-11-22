@@ -20,8 +20,8 @@ RUN echo "http.port: 9200  " >> /etc/elasticsearch/elasticsearch.yml
 RUN echo "transport.tcp.port: 9300  " >> /etc/elasticsearch/elasticsearch.yml 
 RUN echo "path.data: /var/lib/elasticsearch " >> /etc/elasticsearch/elasticsearch.yml  
 RUN echo "path.logs: /var/log/elasticsearch " >> /etc/elasticsearch/elasticsearch.yml 
-
-RUN chown -R elasticsearch:elasticsearch /var/run/elasticsearch
+RUN cat /etc/passwd
+#RUN chown -R elasticsearch:elasticsearch /var/run/elasticsearch
 
 EXPOSE 9200 9300
 
